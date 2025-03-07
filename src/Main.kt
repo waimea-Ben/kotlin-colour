@@ -31,8 +31,24 @@ fun main() {
 class MainWindow : JFrame(), ActionListener {
 
     // Fields to hold the UI elements
-    private lateinit var greetingLabel: JLabel
-    private lateinit var helloButton: JButton
+
+    private lateinit var redJTextArea: JTextField
+    private lateinit var blueJTextArea: JTextField
+    private lateinit var greenJTextArea: JTextField
+
+    private lateinit var redUpButton: JButton
+    private lateinit var blueUpButton: JButton
+    private lateinit var greenUpButton: JButton
+
+    private lateinit var redDownButton: JButton
+    private lateinit var blueDownButton: JButton
+    private lateinit var greenDownButton: JButton
+
+    private lateinit var colourField: JLabel
+    private lateinit var hexOut: JLabel
+
+
+
 
     /**
      * Configure the UI and display it
@@ -49,8 +65,8 @@ class MainWindow : JFrame(), ActionListener {
      * Configure the main window
      */
     private fun configureWindow() {
-        title = "Kotlin Swing GUI Demo"
-        contentPane.preferredSize = Dimension(600, 350)
+        title = "Kotlin Gui RGB to HEX code"
+        contentPane.preferredSize = Dimension(500, 350)
         defaultCloseOperation = WindowConstants.EXIT_ON_CLOSE
         isResizable = false
         layout = null
@@ -64,30 +80,104 @@ class MainWindow : JFrame(), ActionListener {
     private fun addControls() {
         val defaultFont = Font(Font.SANS_SERIF, Font.PLAIN, 30)
 
-        greetingLabel = JLabel("Hello, World!")
-        greetingLabel.horizontalAlignment = SwingConstants.CENTER
-        greetingLabel.bounds = Rectangle(50, 50, 500, 100)
-        greetingLabel.font = defaultFont
-        add(greetingLabel)
+        redJTextArea = JTextField()
+        redJTextArea.bounds = Rectangle(60, 40, 100,70)
+        redJTextArea.font = defaultFont
+        redJTextArea.addActionListener(this)
+        add(redJTextArea)
 
-        helloButton = JButton("Click Me!")
-        helloButton.bounds = Rectangle(50,200,500,100)
-        helloButton.font = defaultFont
-        helloButton.addActionListener(this)     // Handle any clicks
-        add(helloButton)
+        blueJTextArea = JTextField()
+        blueJTextArea.bounds = Rectangle(60, 140, 100,70)
+        blueJTextArea.font = defaultFont
+        blueJTextArea.addActionListener(this)
+        add(blueJTextArea)
+
+        greenJTextArea = JTextField()
+        greenJTextArea.bounds = Rectangle(60, 240, 100,70)
+        greenJTextArea.font = defaultFont
+        greenJTextArea.addActionListener(this)
+        add(greenJTextArea)
+
+
+
+        redUpButton = JButton("+")
+        redUpButton.bounds = Rectangle(180, 40, 30, 30)
+        redUpButton.font = font
+        redUpButton.foreground = Color.DARK_GRAY
+        redUpButton.addActionListener(this)     // Handle any clicks
+        add(redUpButton)
+
+        redDownButton = JButton("-")
+        redDownButton.bounds = Rectangle(180, 80, 30, 30)
+        redDownButton.font = font
+        redDownButton.foreground = Color.DARK_GRAY
+        redDownButton.addActionListener(this)     // Handle any clicks
+        add(redDownButton)
+
+
+
+        blueUpButton = JButton("+")
+        blueUpButton.bounds = Rectangle(180, 140, 30, 30)
+        blueUpButton.font = font
+        blueUpButton.foreground = Color.DARK_GRAY
+        blueUpButton.addActionListener(this)     // Handle any clicks
+        add(blueUpButton)
+
+        blueDownButton = JButton("-")
+        blueDownButton.bounds = Rectangle(180, 180, 30, 30)
+        blueDownButton.font = font
+        blueDownButton.foreground = Color.DARK_GRAY
+        blueDownButton.addActionListener(this)     // Handle any clicks
+        add(blueDownButton)
+
+
+        greenUpButton = JButton("+")
+        greenUpButton.bounds = Rectangle(180, 240, 30, 30)
+        greenUpButton.font = font
+        greenUpButton.foreground = Color.DARK_GRAY
+        greenUpButton.addActionListener(this)     // Handle any clicks
+        add(greenUpButton)
+
+        greenDownButton = JButton("-")
+        greenDownButton.bounds = Rectangle(180, 280, 30, 30)
+        greenDownButton.font = font
+        greenDownButton.foreground = Color.DARK_GRAY
+        greenDownButton.addActionListener(this)     // Handle any clicks
+        add(greenDownButton)
+
+
+
+
+        colourField = JLabel("")
+        colourField.bounds = Rectangle(250, 40, 200, 200)
+        colourField.font = defaultFont
+        colourField.isOpaque = true
+        colourField.background = Color.blue
+        add(colourField)
+
+        hexOut = JLabel("#hexccd")
+        hexOut.bounds = Rectangle(250, 250, 200, 50)
+        hexOut.horizontalAlignment = SwingConstants.CENTER
+        hexOut.font = defaultFont
+        hexOut.background = Color.lightGray
+        add(hexOut)
+    }
+
+    override fun actionPerformed(e: ActionEvent?) {
+        TODO("Not yet implemented")
     }
 
 
     /**
      * Handle any UI events (e.g. button clicks)
      */
-    override fun actionPerformed(e: ActionEvent?) {
-        when (e?.source) {
-            helloButton -> {
-                greetingLabel.text = "You clicked the button!"
-            }
-        }
-    }
+//    override fun actionPerformed(e: ActionEvent?) {
+//        when (e?.source) {
+//            helloButton -> {
+//                greetingLabel.text = "You clicked the button!"
+//            }
+//        }
+//    }
 
 }
 
