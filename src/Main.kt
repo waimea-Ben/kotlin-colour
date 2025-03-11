@@ -44,11 +44,23 @@ class MainWindow : JFrame(), ActionListener {
     private lateinit var blueDownButton: JButton
     private lateinit var greenDownButton: JButton
 
+    private lateinit var redSlider: JSlider
+    private lateinit var blueSlider: JSlider
+    private lateinit var greenSlider: JSlider
+
+
     private lateinit var colourField: JLabel
     private lateinit var hexOut: JTextField
 
+    private lateinit var timer: Timer
 
+    var redUpHeld = false
+    var blueUpHeld = false
+    var greenUpHeld = false
 
+    var redDownHeld = false
+    var blueDownHeld = false
+    var greenDownHeld = false
 
     /**
      * Configure the UI and display it
@@ -59,6 +71,9 @@ class MainWindow : JFrame(), ActionListener {
 
         setLocationRelativeTo(null)     // Centre the window
         isVisible = true                // Make it visible
+
+        timer = Timer(150, this)
+        timer.start()
     }
 
     /**
@@ -88,17 +103,48 @@ class MainWindow : JFrame(), ActionListener {
         redJTextArea.addActionListener(this)
         add(redJTextArea)
 
+        greenJTextArea = JTextField("0")
+        greenJTextArea.bounds = Rectangle(60, 140, 100,70)
+        greenJTextArea.font = defaultFont
+        greenJTextArea.addActionListener(this)
+        add(greenJTextArea)
+
         blueJTextArea = JTextField("0")
         blueJTextArea.bounds = Rectangle(60, 240, 100,70)
         blueJTextArea.font = defaultFont
         blueJTextArea.addActionListener(this)
         add(blueJTextArea)
 
-        greenJTextArea = JTextField("0")
-        greenJTextArea.bounds = Rectangle(60, 140, 100,70)
-        greenJTextArea.font = defaultFont
-        greenJTextArea.addActionListener(this)
-        add(greenJTextArea)
+
+        redSlider = JSlider(0,0)
+        redSlider.minimum = 0
+        redSlider.maximum = 255
+        redSlider.setBounds(50, 110, 120,25)
+        redSlider.addChangeListener {
+            redJTextArea.text = redSlider.value.toString()
+            updateUI()
+        }
+        add(redSlider)
+
+        greenSlider = JSlider(0,0)
+        greenSlider.minimum = 0
+        greenSlider.maximum = 255
+        greenSlider.setBounds(50, 210, 120,25)
+        greenSlider.addChangeListener {
+            greenJTextArea.text = greenSlider.value.toString()
+            updateUI()
+        }
+        add(greenSlider)
+
+        blueSlider = JSlider(0,0)
+        blueSlider.minimum = 0
+        blueSlider.maximum = 255
+        blueSlider.setBounds(50, 310, 120,25)
+        blueSlider.addChangeListener { blueJTextArea.text = blueSlider.value.toString()
+            updateUI()
+        }
+        add(blueSlider)
+
 
 
 
@@ -106,14 +152,32 @@ class MainWindow : JFrame(), ActionListener {
         redUpButton.bounds = Rectangle(180, 40, 30, 30)
         redUpButton.font = font
         redUpButton.foreground = Color.DARK_GRAY
-        redUpButton.addActionListener(this)     // Handle any clicks
+        redUpButton.addActionListener(this) // Handle any clickk
+        redUpButton.addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent?) {
+                redUpHeld = true
+            }
+
+            override fun mouseReleased(e: MouseEvent?) {
+                redUpHeld = false
+            }
+        })
         add(redUpButton)
 
         redDownButton = JButton("-")
         redDownButton.bounds = Rectangle(180, 80, 30, 30)
         redDownButton.font = font
         redDownButton.foreground = Color.DARK_GRAY
-        redDownButton.addActionListener(this)     // Handle any clicks
+        redDownButton.addActionListener(this)
+        redDownButton.addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent?) {
+                redDownHeld = true
+            }
+
+            override fun mouseReleased(e: MouseEvent?) {
+                redDownHeld = false
+            }
+        })
         add(redDownButton)
 
 
@@ -123,6 +187,16 @@ class MainWindow : JFrame(), ActionListener {
         blueUpButton.font = font
         blueUpButton.foreground = Color.DARK_GRAY
         blueUpButton.addActionListener(this)     // Handle any clicks
+        blueUpButton.addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent?) {
+                blueUpHeld = true
+            }
+
+            override fun mouseReleased(e: MouseEvent?) {
+                blueUpHeld = false
+            }
+        })
+
         add(blueUpButton)
 
         blueDownButton = JButton("-")
@@ -130,6 +204,15 @@ class MainWindow : JFrame(), ActionListener {
         blueDownButton.font = font
         blueDownButton.foreground = Color.DARK_GRAY
         blueDownButton.addActionListener(this)     // Handle any clicks
+        blueDownButton.addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent?) {
+                blueDownHeld = true
+            }
+
+            override fun mouseReleased(e: MouseEvent?) {
+                blueDownHeld = false
+            }
+        })
         add(blueDownButton)
 
 
@@ -138,6 +221,15 @@ class MainWindow : JFrame(), ActionListener {
         greenUpButton.font = font
         greenUpButton.foreground = Color.DARK_GRAY
         greenUpButton.addActionListener(this)     // Handle any clicks
+        greenUpButton.addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent?) {
+                greenUpHeld = true
+            }
+
+            override fun mouseReleased(e: MouseEvent?) {
+                greenUpHeld = false
+            }
+        })
         add(greenUpButton)
 
         greenDownButton = JButton("-")
@@ -145,6 +237,16 @@ class MainWindow : JFrame(), ActionListener {
         greenDownButton.font = font
         greenDownButton.foreground = Color.DARK_GRAY
         greenDownButton.addActionListener(this)     // Handle any clicks
+        greenDownButton.addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent?) {
+                greenDownHeld = true
+            }
+
+            override fun mouseReleased(e: MouseEvent?) {
+                greenDownHeld = false
+            }
+        })
+
         add(greenDownButton)
 
 
@@ -194,7 +296,20 @@ class MainWindow : JFrame(), ActionListener {
                         JOptionPane.showMessageDialog(this, "Invalid Hex Code", "Error", JOptionPane.ERROR_MESSAGE)
                         return
                     }
-                }}
+                }
+            }
+            timer -> {
+                suspend fun delay(duration: 100ms )
+                if (redDownHeld)redValue --
+                if (greenDownHeld)greenValue --
+                if (blueDownHeld)blueValue --
+
+                if (redUpHeld)redValue ++
+                if (greenUpHeld)greenValue ++
+                if (blueUpHeld)blueValue ++
+                updateUI()
+
+            }
         }
 
         redValue = (redValue + 256) % 256
@@ -211,6 +326,10 @@ class MainWindow : JFrame(), ActionListener {
         val redValue = redJTextArea.text.toInt()
         val greenValue = greenJTextArea.text.toInt()
         val blueValue = blueJTextArea.text.toInt()
+
+        redSlider.value = redJTextArea.text.toInt()
+        blueSlider.value = blueJTextArea.text.toInt()
+        greenSlider.value = greenJTextArea.text.toInt()
 
 
         colourField.background = Color(redValue, greenValue, blueValue)
